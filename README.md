@@ -1,10 +1,10 @@
 # PDF Focus Analyzer
 
-A map-reduce pipeline that analyzes PDFs through a user-defined lens. Give it a PDF and a focus prompt — it extracts, chunks, retrieves, maps claims with evidence, and reduces everything into a structured report.
+> **Analyze any PDF through a custom lens.** Define what you care about, and get a structured, evidence-backed report — powered by LLMs.
 
 Requires **OpenAI API** or **LM Studio** (local models via OpenAI-compatible API).
 
-This is a **learning project** exploring how far **Qwen 3.5-35B** can go for focused document analysis, compared to OpenAI models.
+This is a **learning project** exploring how far **Qwen 3.5-35B-A3B** can go for focused document analysis, compared to OpenAI models.
 
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![Tests](https://img.shields.io/badge/tests-65%20passed-brightgreen.svg)](#tests)
@@ -14,7 +14,7 @@ This is a **learning project** exploring how far **Qwen 3.5-35B** can go for foc
 
 ## What It Does
 
-You write a short focus prompt (e.g. "SWOT analysis of this company") and point it at a PDF. The pipeline produces a Markdown report containing:
+You write a short focus prompt (e.g. "Focus on the risks and challenges") and point it at a PDF. The pipeline produces a Markdown report containing:
 
 - **Summary** — a narrative overview, written in the language of your input
 - **Key findings** — numbered, prioritized insights
@@ -34,7 +34,7 @@ The pipeline uses the OpenAI client for both cloud and local models. You need on
 | Provider | Chat Model | Embedding | Setup |
 |----------|-----------|-----------|-------|
 | **OpenAI** | Any OpenAI model (default: gpt-4.1) | text-embedding-3-small | Set `OPENAI_API_KEY` in `.env` |
-| **LM Studio** | Any local model | nomic-embed-text-v1.5 | Run LM Studio with models loaded |
+| **LM Studio** | Any local model with structured output.| nomic-embed-text-v1.5 | Run LM Studio Server with models loaded |
 
 Both providers use the same pipeline. Token budgets adapt automatically — 128K context for OpenAI, 4K for local models.
 
@@ -55,6 +55,8 @@ For OpenAI, create a `.env` file:
 ```bash
 OPENAI_API_KEY=sk-...
 ```
+
+For LM Studio, start the server on http://127.0.0.1:1234 and load the local model. make sure, the context length matches with the number specified in [`infra/config.py`](infra/config.py).
 
 Place your PDF in `input/`, create your focus prompt:
 
